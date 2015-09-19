@@ -36,7 +36,24 @@ object MyModule {
 
   // Exercise 1: Write a function to compute the nth fibonacci number
 
-  def fib(n: Int): Int = ???
+  def fib(n: Int): Int = {
+//    @annotation.tailrec
+//    def go(n: Int, limit: Int, previous: Int, current: Int): Int = {
+//      if (n == limit) previous
+//      else go(n + 1, limit, current, previous + current)
+//    }
+//
+//    go(0, n, 0, 1)
+
+    // It's more intuitive to me to go from 0 to n but like the commented
+    // code above. But in order to save one parameter I go from n to 0
+    @annotation.tailrec
+    def go(n: Int, previous: Int, current: Int): Int = {
+      if (n == 0) previous
+      else go(n - 1, current, previous + current)
+    }
+    go(n, 0, 1)
+  }
 
   // This definition and `formatAbs` are very similar..
   private def formatFactorial(n: Int) = {
