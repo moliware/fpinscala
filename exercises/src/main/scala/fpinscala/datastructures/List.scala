@@ -88,5 +88,7 @@ object List { // `List` companion object. Contains functions for creating and wo
 
   def foldRight2[A,B](l: List[A], z: B)(f: (A, B) => B): B = foldLeft(reverse(l), z)((z, x) => f(x, z))
 
+  def append2[A](a1: List[A], a2: List[A]): List[A] = foldRight(a1, a2)((x, z) => setHead(z, x))
+
   def map[A,B](l: List[A])(f: A => B): List[B] = sys.error("todo")
 }
