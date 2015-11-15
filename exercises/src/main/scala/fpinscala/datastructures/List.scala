@@ -84,5 +84,7 @@ object List { // `List` companion object. Contains functions for creating and wo
 
   def product3(ns: List[Double]): Double = foldLeft(ns, 1.0)(_ * _)
 
+  def reverse[A](l: List[A]): List[A] = foldLeft(l, Nil: List[A])(setHead)
+
   def map[A,B](l: List[A])(f: A => B): List[B] = sys.error("todo")
 }
