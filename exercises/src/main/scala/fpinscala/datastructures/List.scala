@@ -106,4 +106,10 @@ object List { // `List` companion object. Contains functions for creating and wo
     case Nil => Nil
     case Cons(x, xs) => Cons(f(x), map(xs)(f))
   }
+
+  def filter[A](as: List[A])(f: A => Boolean): List[A] = as match {
+    case Nil                 => Nil
+    case Cons(x, xs) if f(x) => Cons(x, filter(xs)(f))
+    case Cons(x, xs)         => filter(xs)(f)
+  }
 }
