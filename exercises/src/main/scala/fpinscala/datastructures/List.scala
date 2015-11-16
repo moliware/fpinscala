@@ -127,4 +127,10 @@ object List { // `List` companion object. Contains functions for creating and wo
     case (_, Nil)                   => Nil
     case (Cons(x, xs), Cons(y, ys)) => Cons(x + y, add2Lists(xs, ys))
   }
+
+  def zipWith[A, B](l1: List[A], l2: List[B]): List[(A, B)] = (l1, l2) match {
+    case (Nil, _)                   => Nil
+    case (_, Nil)                   => Nil
+    case (Cons(x, xs), Cons(y, ys)) => Cons((x, y), zipWith(xs, ys))
+  }
 }
