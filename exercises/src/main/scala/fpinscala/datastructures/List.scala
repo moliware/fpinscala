@@ -112,4 +112,12 @@ object List { // `List` companion object. Contains functions for creating and wo
     case Cons(x, xs) if f(x) => Cons(x, filter(xs)(f))
     case Cons(x, xs)         => filter(xs)(f)
   }
+
+  def flatMap[A,B](as: List[A])(f: A => List[B]): List[B] = as match {
+    case Nil => Nil
+    case Cons(x, xs) => append(f(x), flatMap(xs)(f))
+  }
+
+  def flatMap2[A,B](as: List[A])(f: A => List[B]): List[B] = flatten(map(as)(f))
+
 }
