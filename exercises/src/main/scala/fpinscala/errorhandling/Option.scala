@@ -55,5 +55,10 @@ object Option {
     case (acc, Some(aa))  => acc.map(l => l :+ aa)
   }
 
-  def traverse[A, B](a: List[A])(f: A => Option[B]): Option[List[B]] = sys.error("todo")
+  def traverse[A, B](a: List[A])(f: A => Option[B]): Option[List[B]] = a match {
+    case Nil     => Some(Nil)
+    case x :: xs => map2(f(x), traverse(xs)(f))((elem, z) => elem :: z)
+  }
+
+  def sequence2[A](a: List[Option[A]]): Option[List[A]] = traverse(a)(identity)
 }
