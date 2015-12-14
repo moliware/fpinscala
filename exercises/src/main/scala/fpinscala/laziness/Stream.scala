@@ -75,6 +75,8 @@ object Stream {
     if (as.isEmpty) empty
     else cons(as.head, apply(as.tail: _*))
 
+  def constant[A](a: A): Stream[A] = Stream.cons(a, constant(a))
+
   val ones: Stream[Int] = Stream.cons(1, ones)
   def from(n: Int): Stream[Int] = sys.error("todo")
 
