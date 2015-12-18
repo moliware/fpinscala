@@ -9,6 +9,13 @@ trait Stream[+A] {
       case _ => z
     }
 
+  def scanRight[B](z: => B)(f: (A, => B) => B): Stream[B] =
+    foldRight(z, Stream(z)){ (a, b) =>
+      lazy val cachedB = b
+      val partial = f(a, cachedB._1)
+      (partial, cons(partial, cachedB._2))
+    }._2
+
   def exists(p: A => Boolean): Boolean =
     foldRight(false)((a, b) => p(a) || b) // Here `b` is the unevaluated recursive step that folds the tail of the stream. If `p(a)` returns `true`, `b` will never be evaluated and the computation terminates early.
 
