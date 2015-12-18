@@ -87,6 +87,11 @@ trait Stream[+A] {
   }
 
   def startsWith[B](s: Stream[B]): Boolean = zipAll(s).takeWhile(_._2.isDefined).forAll(x => x._1 == x._2)
+
+  def tails: Stream[Stream[A]] = unfold(this) {
+    case Empty        => None
+    case s: Cons[A]   => Some((s, s.t()))
+  }
 }
 case object Empty extends Stream[Nothing]
 case class Cons[+A](h: () => A, t: () => Stream[A]) extends Stream[A]
