@@ -1,5 +1,7 @@
 package fpinscala.state
 
+import scala.annotation.tailrec
+
 
 trait RNG {
   def nextInt: (Int, RNG) // Should generate a random `Int`. We'll later define other functions in terms of `nextInt`.
@@ -50,7 +52,7 @@ object RNG {
   def doubleInt(rng: RNG): ((Double,Int), RNG) = {
     val ((n, d), rng2) = intDouble(rng)
     ((d, n), rng2)
-  } 
+  }
 
   def double3(rng: RNG): ((Double,Double,Double), RNG) = {
     val (d1, rng2) = double(rng)
@@ -59,7 +61,18 @@ object RNG {
     ((d1, d2, d3), rng4)
   }
 
-  def ints(count: Int)(rng: RNG): (List[Int], RNG) = ???
+  def ints(count: Int)(rng: RNG): (List[Int], RNG) = {
+    @tailrec
+    def go(i: Int, l: List[Int], r: RNG): (List[Int], RNG) = {
+      if (i == 0) {
+        (l, r)
+      } else {
+        val (n, r2) = r.nextInt
+        go(i - 1, l :+ n, r2)
+      }
+    }
+    go(count, List(), rng)
+  }
 
   def map2[A,B,C](ra: Rand[A], rb: Rand[B])(f: (A, B) => C): Rand[C] = ???
 
